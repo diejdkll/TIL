@@ -26,13 +26,13 @@ dependencies{
 
 1. 이미지 로드하기
 ```kotlin
-Picassso.with(View의 Context)
+Picassso.get(View의 Context)
     .load(로드할 이미지)
     .into(ImageView)
 ```
 - 특별한 옵션 없이 단순히 이미지만 로드하는 경우
 #### 함수 기능
-- **with()** : View,Fragment 혹은 Activity로부터 Context를 가져오는 함수
+- **get()** : View,Fragment 혹은 Activity로부터 Context를 가져오는 함수
 - **load()** : 이미지를 로드하는 함수. 다양한 방법으로 이미지를 로드할 수 있다.(Bitmap, Drawable, Uri, String, File, ResourceId, ByteArray)
 - **into()** : 이미지를 보여줄 View를 지정하는 함수
 
@@ -40,7 +40,7 @@ Picassso.with(View의 Context)
 
 2. 이미지 에러처리
 ```kotlin
-Picassso.with(View의 Context)
+Picassso.get(View의 Context)
     .load(로드할 이미지)
     .placeholder(R.drawable.picasso_example_place_holder)
     .error(R.drawable.picasso_example_error)
@@ -55,7 +55,7 @@ Picassso.with(View의 Context)
 
 3. 이미지 크기 변경
 ```kotlin
-Picassso.with(View의 Context)
+Picassso.get(View의 Context)
     .load(로드할 이미지)
     .resize(horizontal, vertical)
     .centerCrop()
