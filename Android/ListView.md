@@ -36,9 +36,9 @@
 ```kotlin
 // 클래스 모델 객체
 class ListViewItem {
-    var iconDrawable: Drawable? = null
-    var titleStr: String? = null
-    var descStr: String? = null
+    var icon: Drawable? = null
+    var title: String? = null
+    var desc: String? = null
 }
 ```
 
@@ -174,14 +174,13 @@ var list = arrayListOf<ListViewItem>(
 ```kotlin
 // Adapter 준비
 val adapter = ListViewAdapter(
-            list,
-            LayoutInflater.from(this),
-            this
-        )
-
+        list,
+        LayoutInflater.from(this),
+        this
+    )
 // Adapter 장착 방법
 val listview = findViewById<ListView>(R.id.listView)
-        listview.adapter = adapter
+listview.adapter = adapter
 ```
 
 <br/>
@@ -191,6 +190,6 @@ val listview = findViewById<ListView>(R.id.listView)
 - 리스트에는 한 개 이상의 View가 필요한 경우가 있지만 커스텀으로 작업하기 쉽지 않다.
 - ViewHolder 패턴을 강제적으로 사용하지 않으므로 고비용의 findViewById가 매번 호출될 수 있다.
 
-### 위와 같은 이유로 **RecyclerView**사용이 권장된다.
+### 위와 같은 이유로 [**RecyclerView**](https://github.com/diejdkll/TIL/blob/main/Android/RecyclerView.md)사용이 권장된다.
 
 ***
