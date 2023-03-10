@@ -132,9 +132,9 @@ class RecyclerViewAdapter(
 ```kotlin
 // 데이터 준비
 var list = arrayListOf<RecyclerViewItem>(
-        ListViewItem(R.drawable.이미지, "1"),
-        ListViewItem(R.drawable.이미지, "2"),
-        ListViewItem(R.drawable.이미지, "3")
+        RecyclerViewItem(R.drawable.이미지, "1"),
+        RecyclerViewItem(R.drawable.이미지, "2"),
+        RecyclerViewItem(R.drawable.이미지, "3")
     )
 ```
 
@@ -150,6 +150,67 @@ recyclerView.adapter = RecyclerViewAdapter(
 // 리사이클러뷰에 레이아웃 매니저 장착
 recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
 ```
+
+***
+
+## **RecyclerView 업데이트 및 갱신 방법**
+### **전체적으로 변경되었을 경우**
+1. notifyDataSetChanged()
+- 사용하기는 편하나 기본적으로 변경사항에 대한 내용을 지정하지 않으므로 모든 아이템과 구조가 유효하지 않다고 가정하고 업데이트를 하므로 성능 측면에서의 **효율성은 떨어진다.**
+
+<br>
+
+### **아이템 내용 변경시**
+2. notifyItemChanged(int)
+- 아이템 한개의 내용이 변경되었을 경우 사용한다. 
+        - **position** : 변경된 아이템의 위치
+
+3. notifyItemChanged(int, Object)
+- 2번과 동일하나 payload를 옵션으로 사용할 수 있다.
+    - **position** : 변경된 아이템의 위치
+    - **payload** : 옵션이며, 어댑터의 onBindViewholder()가 호출될때 넘겨받을 수 있는 객체이다. 따라서 특정 position의 내용을 payload값으로 구분하여 업데이트 할때 사용된다. 
+
+4. notifyItemRangeChanged(int, int)
+- 연속된 여러개의 아이템 내용이 변경되었을 경우 사용한다.
+    - **positionStart** : 변경된 아이템의 시작 위치
+    - **itemCount** : 변경된 아이템의 갯수
+
+5. notifyItemRangeChanged(int, int, Object)
+- 4번과 동일하나, payload를 옵션으로 사용할 수 있다.
+    - **positionStart** : 변경된 아이템의 시작 위치
+    - **itemCount** : 변경된 아이템의 갯수
+    - **payload** : 옵션이며, 어댑터의 onBindViewholder()가 호출될때 넘겨받을 수 있는 객체이다. 따라서 특정 position의 내용을 payload값으로 구분하여 업데이트 할때 사용된다.
+
+<br>
+
+### **아이템 추가시**
+6. notifyItemInserted(int)
+- 아이템 한개를 새로 추가할 경우 사용한다.
+    - **position** : 추가된 아이템의 위치
+
+7. notifyItemRangeInserted(int, int)
+- 연속된 아이템을 추가할 경우 사용한다.
+    - **positionStart** : 추가된 아이템의 시작 위치
+    - **itemCount** : 추가된 아이템의 갯수
+
+<br>
+
+### **아이템 이동시**
+8. notifyItemMoved(int, int)
+- 한개의 아이템 위치를 이동할 경우 사용한다.
+    - **fromPosition** : 기존 아이템 위치
+    - **toPosition** : 변경될 아이템 위치
+
+### **아이템 삭제시**
+9. notifyItemRemoved(int)
+- 한개의 아이템을 삭제할 경우 사용한다.
+    - **position** : 삭제할 아이템의 위치
+
+10. notifyItemRangeRemoved(int, int)
+- 연속된 여러개의 아이템을 삭제할 경우 사용한다. 
+    - **positionStart** : 삭제할 아이템의 시작 위치
+    - **itemCount** : 삭제할 아이템의 갯수
+
 
 <br>
 
