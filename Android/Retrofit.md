@@ -30,8 +30,8 @@
 ```
 dependencies{
 	...
-    implementation "androidx.room:room-runtime:2.5.0"
-    annotationProcessor "androidx.room:room-compiler:2.5.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // JSON 파싱을 위한 Gson 컨버터
 }
 ```
 - 최신버전은 [*Retrofit Github*](https://github.com/square/retrofit)에서 확인 가능
