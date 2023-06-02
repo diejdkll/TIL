@@ -53,6 +53,7 @@ data class User(
     val email: String
 )
 ```
+- 사용자 정보를 담는 데이터 클래스를 정의한다.
 - 서버에서 받은 JSON 응답을 파싱하여 객체로 표현하는 데 사용
 
 <br>
@@ -87,7 +88,10 @@ object RetrofitClient {
 }
 ```
 - `RetrofitClient`는 싱글톤 객체로, Retrofit 인스턴스를 생성하고 관리하는 역할
+- `BASE_URL`은 API의 기본 URL을 나타낸다.
 - `Retrofit.Builder`를 사용하여 Retrofit 인스턴스를 생성하고, 필요한 구성을 설정한다. 
+- `addConverterFactory(GsonConverterFactory.create())`를 통해 Gson 컨버터를 추가하여 JSON 데이터를 파싱할 수 있도록 설정한다.
+- `apiService`는 Retrofit을 통해 생성된 인스턴스를 반환하는 프로퍼티이다.
 
 <br>
 
@@ -99,13 +103,16 @@ class MyViewModel : ViewModel() {
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> get() = _users
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
+
     fun fetchUsers() {
         viewModelScope.launch {
             try {
                 val userList = apiService.getUsers()
                 _users.value = userList
             } catch (e: Exception) {
-                // 에러 처리
+                _error.value = "Failed to fetch users: ${e.message}"
             }
         }
     }
@@ -114,6 +121,7 @@ class MyViewModel : ViewModel() {
 - `MyViewModel` 클래스는 ViewModel을 확장하며, Retrofit을 사용하여 데이터를 가져온다. 
 - `RetrofitClient.apiService`를 통해 Retrofit 인스턴스에 액세스하고, `fetchUsers()` 메서드를 호출하여 사용자 데이터를 가져온다.
 - `viewModelScope.launch` 블록 내에서 `apiService.getUsers()`를 호출하여 사용자 목록을 가져온 후, `_users` MutableLiveData를 업데이트한다.
+- API 요청이 성공하면 `_users`를 업데이트하고, 실패하면 `_error`에 에러 메시지를 설정한다.
 
 <br>
 
@@ -125,13 +133,16 @@ class MyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ViewModelProvider를 사용하여 ViewModel을 생성하고 가져온다.
         viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
 
-        // ViewModel의 데이터를 관찰하고 UI를 업데이트한다.
         viewModel.users.observe(this, Observer { userList ->
             // 사용자 목록이 업데이트될 때마다 호출된다.
             // userList를 사용하여 UI를 업데이트하거나 처리한다.
+        })
+
+        viewModel.error.observe(this, Observer { errorMessage ->
+            // 사용자에게 에러 메시지를 표시하거나 에러 처리 로직을 수행한다.
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
         })
 
         viewModel.fetchUsers()
@@ -141,6 +152,7 @@ class MyActivity : AppCompatActivity() {
 - `MyActivity` 클래스는 AppCompatActivity를 상속하며, ViewModelProvider를 사용하여 ViewModel을 생성하고 가져온다.
 - `ViewModelProvider(this).get(MyViewModel::class.java)`를 호출하여 ViewModel 인스턴스를 얻을 수 있다.
 - `viewModel.users.observe`를 사용하여 `users` LiveData를 관찰하고, 데이터가 업데이트되면 이를 수신하여 UI를 업데이트하거나 처리한다.
+- `viewModel.error.observe`를 사용하여 error LiveData를 관찰하고, 에러 메시지가 업데이트되면 이를 수신하여 사용자에게 에러 메시지를 표시하거나 에러 처리를 수행한다.
 - `viewModel.fetchUsers()`를 호출하여 사용자 데이터를 가져온다.
 
 ***
