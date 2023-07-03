@@ -93,7 +93,7 @@ interface GitHubService {
     suspend fun getRepositories(@Query("page") page: Int): List<Repository>
 }
 ```
-- `GitHubService`는 Retrofit을 사용하여 서버와 통신하는 역할을 한다.
+- `GitHubService` 는 Retrofit을 사용하여 서버와 통신하는 역할을 한다.
 - `getRepositories` 함수는 페이지별 `Repository` 목록을 가져오기 위해 서버와 통신한다.
 
 <br>
@@ -114,10 +114,10 @@ class RepositoryDataSource(private val service: GitHubService) : PagingSource<In
     }
 }
 ```
-- `RepositoryDataSource`는 `PagingSource`를 상속받아 `Retrofit`을 통해 Repository 목록을 가져오는 역할을 한다.
-- `load` 함수는 페이지별 데이터를 로드하고, `LoadResult.Page`를 반환한다.
+- `RepositoryDataSource` 는 `PagingSource` 를 상속받아 Retrofit을 통해 Repository 목록을 가져오는 역할을 한다.
+- `load` 함수는 페이지별 데이터를 로드하고, `LoadResult.Page` 를 반환한다.
 - 페이지 번호에 따라 API 서비스를 호출하여 데이터를 가져온다.
-- 가져온 데이터와 이전 페이지 및 다음 페이지에 대한 키를 `LoadResult.Page`에 담아 반환한다. 예외가 발생한 경우 `LoadResult.Error`를 반환한다.
+- 가져온 데이터와 이전 페이지 및 다음 페이지에 대한 키를 `LoadResult.Page` 에 담아 반환한다. 예외가 발생한 경우 `LoadResult.Error` 를 반환한다.
 
 <br>
 
@@ -138,8 +138,8 @@ class RepositoryViewModel(private val repository: RepositoryDataSource) : ViewMo
     }
 }
 ```
-- `RepositoryViewModel`은 `RepositoryDataSource`를 사용하여 데이터를 가져오는 뷰모델이다.
-- `repositories`는 `PagingData<Repository>`를 유지하는 `StateFlow`이다.
+- `RepositoryViewModel` 은 `RepositoryDataSource` 를 사용하여 데이터를 가져오는 뷰모델이다.
+- `repositories` 는 `PagingData<Repository>` 를 유지하는 `StateFlow` 이다.
 - `getRepositories` 함수는 데이터를 가져와서 `_repositories` 값을 업데이트한다.
 
 <br>
@@ -177,10 +177,10 @@ class RepositoryAdapter : PagingDataAdapter<Repository, RepositoryAdapter.Reposi
     }
 }
 ```
-- `RepositoryAdapter`는 PagingDataAdapter를 상속받아 RecyclerView에 데이터를 표시하는 어댑터아다.
+- `RepositoryAdapter` 는 PagingDataAdapter를 상속받아 RecyclerView에 데이터를 표시하는 어댑터이다.
 - onCreateViewHolder에서 ViewHolder를 생성하고, onBindViewHolder에서 데이터를 ViewHolder에 바인딩한다.
-- inner class로 RepositoryViewHolder를 정의하고, bind 함수에서 데이터를 뷰에 바인딩하고 표시한다.
-- DIFF_CALLBACK을 사용하여 아이템이 동일한지 비교하고 콘텐츠가 동일한지 비교한다.
+- inner class로 `RepositoryViewHolder` 를 정의하고, `bind` 함수에서 데이터를 뷰에 바인딩하고 표시한다.
+- `DIFF_CALLBACK` 을 사용하여 아이템이 동일한지 비교하고 콘텐츠가 동일한지 비교한다.
 
 <br>
 
@@ -212,11 +212,11 @@ class RepositoryFragment : Fragment() {
     }
 }
 ```
-- `RepositoryFragment`는 데이터를 표시하는 UI를 담당하는 프래그먼트이다.
+- `RepositoryFragment` 는 데이터를 표시하는 UI를 담당하는 프래그먼트이다.
 - onCreateView에서 데이터 바인딩을 사용하여 프래그먼트의 레이아웃을 인플레이트한다.
-- `repositoryAdapter`를 초기화한다.
+- `repositoryAdapter` 를 초기화한다.
 - onViewCreated에서 데이터 바인딩을 통해 뷰를 참조하고, binding.recyclerView와 같이 바인딩된 뷰를 사용할 수 있다.
-- repositories를 observe하여 `PagingData<Repository>`가 업데이트될 때마다 어댑터에 데이터를 전달한다.
-- onStart에서 viewModel의 getRepositories 함수를 호출하여 데이터를 가져온다.
+- repositories를 observe하여 `PagingData<Repository>` 가 업데이트될 때마다 어댑터에 데이터를 전달한다.
+- onStart에서 viewModel의 `getRepositories` 함수를 호출하여 데이터를 가져온다.
 
 ***
